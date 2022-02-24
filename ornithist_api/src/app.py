@@ -22,7 +22,7 @@ def load_models():
 #preparing the images
 def prepare_image(img):
     img = Image.open(io.BytesIO(img))
-    img = img.resize((224,224))
+    img = img.resize((224,224),3)
     img = np.array(img)
     img_tensor = np.expand_dims(img, axis=0)
 
@@ -34,7 +34,8 @@ def predict_result(img):
 
     model = load_models()
     pred = model.predict(img)
-    return bird_species[np.argmax(pred)]
+    print(np.argmax(pred),np.argmax(pred[0]),np.argmax(pred[0][0]),np.argmax(pred[0][0]))
+    return bird_species[np.argmax(pred[0][0])]
 
 
 app = Flask(__name__)
@@ -56,7 +57,8 @@ def infer_image():
     img = prepare_image(img_bytes)
 
     # Return on a JSON format
-    return jsonify(prediction=predict_result(img))
+    result = predict_result(img)
+    return jsonify(prediction=result)
     
 
 @app.route('/', methods=['GET'])
