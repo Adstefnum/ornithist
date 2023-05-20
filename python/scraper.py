@@ -21,6 +21,7 @@ def get_img(page):
     pass
 
 #save to json or csv and upload to appwrite and make a function API to query the db
+#or write directly to appwrite database
 for name in bird_names:
     page,link = get_page(name)
     desc = get_desc(page)
