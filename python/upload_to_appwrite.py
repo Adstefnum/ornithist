@@ -54,7 +54,7 @@ def upload_to_appwrite(data):
     except:
         failures.write(f"Failed to upload data for '{data['bird_name']}'")
 
-with open(csv_file_path, 'r') as file:
+with open(csv_file_path, 'r',encoding='utf-8') as file:
     reader = csv.reader(file)
     headers = next(reader)  # Read the header row
 
