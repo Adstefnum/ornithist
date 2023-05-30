@@ -13,10 +13,8 @@ from flask import Flask, jsonify, request
 
 #loading the bird classifier
 def load_models():
-    file_name = "models/bird.bin"
-    with open(file_name, 'rb') as pickled:
-        model = pickle.load(pickled)
-   # model = tf.keras.models.load_model("models/bird.bin")
+    model_path = './bird.h5'
+    model= keras.models.load_model(model_path, custom_objects={'F1_score':'F1_score'})
     return model
 
 #preparing the images
