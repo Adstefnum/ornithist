@@ -1,3 +1,10 @@
-#!/usr/bin/bash
+#!/bin/bash
 
-curl -F "file=@../black_swan.jpeg" http://127.0.0.1:5000/predict
+# Base64 encode the image
+image_data=$(base64 ./test_images/black_swan.jpeg | tr -d '\n')
+
+# Send the POST request using cURL
+response=$(curl -s -X POST -F "imageData=$image_data" http://localhost:8000/upload)
+
+# Print the response
+echo $response
