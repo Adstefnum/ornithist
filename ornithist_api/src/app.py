@@ -1,7 +1,4 @@
-import flask
-import io
 from keras.preprocessing import image
-import os
 import numpy as np
 from PIL import Image
 from flask import Flask, jsonify, request
@@ -10,15 +7,13 @@ import keras
 from classes import classes
 
 
-#loading the bird classifier
 def load_models():
     model_path = '.\\models\\bird.h5'
     model= keras.models.load_model(model_path, custom_objects={'F1_score':'F1_score'})
     return model
 
 
-def predict_result(img):
-    model = load_models()
+def predict_result(model,img):
     img = Image.open(img).convert('RGB')
     img = img.resize((300, 300 * img.size[1] // img.size[0]), Image.ANTIALIAS)
     inp_numpy = np.array(img)[None]
@@ -31,7 +26,8 @@ app = Flask(__name__)
 @app.route('/predict', methods=['POST'])
 def infer_image():
     img = '..\\test\\test_images\\black_swan.jpeg' 
-    result = predict_result(img)
+    model = load_models()
+    result = predict_result(model,img)
     return jsonify(prediction=result)
     
 
